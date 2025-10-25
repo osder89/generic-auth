@@ -14,8 +14,8 @@ public class PermissionDto {
     private String name;
     private String description;
 
-    public PermissionDto( Permission user) {
-        this.name = user.getName();
-        this.description = user.getDescription();
+    public PermissionDto( Permission permission) {
+        this.name = permission.getName();
+        this.description = permission.getDescription();
     }
 }
