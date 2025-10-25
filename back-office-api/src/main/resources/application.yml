@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demo
+    username: postgres
+    password: administrador
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      schema: mod_generic
+      maximum-pool-size: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate.format_sql: true
+      hibernate.default_schema: mod_generic
+      hibernate.jdbc.lob.non_contextual_creation: true
+      hibernate.implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+    show-sql: false
+    open-in-view: false
+
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: 8082
+  error:
+    include-message: always
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  http2:
+    enabled: true
