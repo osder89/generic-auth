@@ -1,0 +1,124 @@
+<table mat-table
+       matSort
+       [dataSource]="dataSource">
+  <ng-container *ngFor="let column of columns">
+    <!--Columna ordenable (column.isSort)-->
+    <ng-container *ngIf="column.isModelProperty && column.isSort" [matColumnDef]="column.property">
+      <th *matHeaderCellDef
+          mat-header-cell
+          [style]="{width: column.width ? column.width : ''}"
+          [mat-sort-header]="column.sortProperty ? column.sortProperty : column.property">
+        {{ column.name }}
+      </th>
+      <td *matCellDef="let row"
+          [style]="{width: column.width ? column.width : ''}"
+          mat-cell>
+        <div fxLayout="row wrap"
+             fxLayoutAlign="center center">
+          <div *ngIf="column.showLoadinCell" fxFlex="15" fxLayoutAlign="center center">
+            <mat-progress-spinner *ngIf="column.showLoadinCell(row)" [diameter]="15"
+                                  [mode]="'indeterminate'"></mat-progress-spinner>
+            <div *ngIf="column.showLoadinCell(row)" class="container-counter">
+              <span class="counter-number">{{counterToReload}}</span>
+            </div>
+          </div>
+          <div [fxFlex]="column.showLoadinCell ? 80 : 100">
+            <ng-container *ngIf="column.cellType == 'IMAGE'; else normalSort">
+              <!-- {{column.imageConfig.width}}  ---  {{column.imageConfig.height}} -->
+                <img [src]="row.icon | mc4SanitizedSource:'img' " [width]="column.imageConfig.width" [height]="column.imageConfig.height" [alt]="column.imageConfig.altMessage">
+            </ng-container>
+            <ng-template #normalSort>
+              <span *ngIf="!column.largeText"
+                    [ngStyle]="column.textContainerCellStyle ? column.textContainerCellStyle(row) : {}">
+                {{ row[column.property] }}
+              </span>
+              <ng-container *ngIf="column.largeText">
+                <span *ngIf="row[column.property]"
+                      class="large-text-btn"
+                      (click)="rowOptionClick(row, column.largeText.actionCode)">
+                  {{column.largeText.text}} 
+                </span>
+              </ng-container>
+            </ng-template>
+            
+          </div>
+        </div>
+      </td>
+    </ng-container>
+    <!--Columna NO ordenable (column.isSort)-->
+    <ng-container *ngIf="column.isModelProperty && !column.isSort" [matColumnDef]="column.property">
+      <th *matHeaderCellDef
+          [style]="{width: column.width ? column.width : ''}"
+          mat-header-cell>
+        {{ column.name }}
+      </th>
+      <td *matCellDef="let row"
+          [style]="{width: column.width ? column.width : ''}"
+          mat-cell>
+        <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+          <div *ngIf="column.showLoadinCell" fxFlex="10">
+            <mat-progress-spinner *ngIf="column.showLoadinCell(row)" [diameter]="15"
+                                  [mode]="'indeterminate'"></mat-progress-spinner>
+          </div>
+          <div [fxFlex]="column.showLoadinCell ? 87 : 100">
+            <ng-container *ngIf="column.cellType == 'IMAGE'; else normal">
+              <!-- {{column.imageConfig.width}}  ---  {{column.imageConfig.height}} -->
+                <img [src]="row.icon | mc4SanitizedSource:'img' " [width]="column.imageConfig.width" [height]="column.imageConfig.height" [alt]="column.imageConfig.altMessage">
+            </ng-container>
+            <ng-template #normal>
+              <span *ngIf="!column.largeText"
+                    [ngStyle]="column.textContainerCellStyle ? column.textContainerCellStyle(row) : {}">
+                {{ row[column.property] }}
+              </span>
+              <ng-container *ngIf="column.largeText">
+                <span *ngIf="row[column.property]"
+                      class="large-text-btn"
+                      (click)="rowOptionClick(row, column.largeText.actionCode)">
+                {{column.largeText.text}}
+                </span>
+              </ng-container>
+            </ng-template>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="singleRowActions" matColumnDef="actions">
+    <th *matHeaderCellDef
+        class="actions-cell"
+        [style]="{width: actionsWidth}"
+        mat-header-cell> Acciones </th>
+    <td *matCellDef="let row"
+        class="actions-cell"
+        [style]="{width: cellActionsWidth}"
+        mat-cell>
+      <button *ngFor="let sAction of singleRowActions"
+              type="button"
+              color="accent"
+              mat-icon-button
+              [disabled]="sAction.isDisabledFn ? sAction.isDisabledFn(row) : false"
+              [matTooltip]="sAction.tooltip"
+              (click)="rowOptionClick(row, sAction.actionCode)">
+        <mat-icon [color]="sAction.isDisabledFn ? (sAction.isDisabledFn(row) ? undefined : 'accent') : 'accent'">
+          {{sAction.icon}}
+        </mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: visibleColumns;"
+      class="clickable route-animations-elements"
+      mat-row></tr>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" [attr.colspan]="visibleColumns.length">
+      <p style="text-align: center">Sin resultados para mostrar</p>
+    </td>
+  </tr>
+</table>
+
+<mat-paginator [length]="totalElements"
+               [pageSizeOptions]="pageSizeOptions"
+               [pageSize]="paginator.pageSize" [style]="{'background-color': 'transparent'}"></mat-paginator>

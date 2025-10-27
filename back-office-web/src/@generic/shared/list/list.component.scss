@@ -1,0 +1,50 @@
+@import "var";
+
+.mc4-list-table {
+  display: flex;
+  flex-direction: column;
+
+  .mc4-list-header {
+    padding-left: $spacing;
+    padding-right: $spacing;
+    height: $card-header-height;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+
+    @include media-xs {
+      height: auto;
+      padding-top: $spacing;
+      padding-bottom: $spacing;
+    }
+
+    .mc4-list-name {
+      font-size: 20px;
+      line-height: 32px;
+      font-weight: 500;
+      padding-right: $spacing;
+
+      @include media-xs {
+        border-right: none;
+      }
+    }
+
+    .mc4-filter-input {
+      font-size: 16px;
+      line-height: 1.125;
+      border: none;
+      height: 32px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .mc4-filter-input-icon {
+      width: 1.2em;
+      vertical-align: bottom;
+      height: 22px;
+      font-size: 22px;
+      margin-right: $padding-xs;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+<div fxLayout="row wrap">
+  <div fxFlex fxLayoutAlign="start center">
+    <div fxLayout="row wrap">
+      <div fxFlex="100">
+        <div class="title">{{ current }}</div>
+        <div class="crumbs" fxLayout="row" fxLayoutAlign="start center">
+          <div *ngFor="let crumb of crumbs" class="crumb" fxLayout="row" fxLayoutAlign="start center">
+            <a *ngIf="crumb.link" [routerLink]="['/' + crumb.link]" class="crumb home">{{ crumb.name }}</a>
+            <div *ngIf="!crumb.link" class="link">{{ crumb.name }}</div>
+            <mat-icon class="chevron">chevron_right</mat-icon>
+          </div>
+          <div class="crumb current" fxLayout="row" fxLayoutAlign="start center">
+            <div class="link">{{ current }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxFlex *ngIf="img" fxShow="false" fxShow.gt-xs="true">
+    <img [src]="img"
+         [ngStyle]="{'max-height': '95px', 'margin-left': '30px'}"
+         [ngStyle.gt-xs]="{'max-height': '95px', 'margin-left': '60px'}">
+  </div>
+</div>
+

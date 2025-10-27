@@ -1,0 +1,16 @@
+<div class="mc4-list-table list" fxFlex="grow" fxLayout="column">
+  <div class="mc4-list-header"
+       fxLayout="row"
+       fxLayoutAlign="start center"
+       fxLayoutGap="8px"
+       fxLayoutGap.gt-xs="24px">
+    <div class="mc4-list-name">{{ name }}</div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
+      <mat-icon *ngIf="withFilter" class="mc4-filter-input-icon">search</mat-icon>
+      <input *ngIf="withFilter" fxFlex class="mc4-filter-input" [(ngModel)]="filterValue" #filter [placeholder]="searchPlaceholder">    </div>
+
+    <ng-content select=".actions"></ng-content>
+  </div>
+  <ng-content></ng-content>
+</div>

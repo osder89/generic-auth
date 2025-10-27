@@ -1,0 +1,136 @@
+.mat-paginator {
+  display: flex;
+  justify-content: start;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  tr:hover {
+    background: none;
+  }
+  tr.mat-row:hover {
+    background-color: lightgray;
+    transition: background-color 0.3s ease;
+  }
+}
+
+th,
+td {
+  overflow: hidden;
+  //white-space: nowrap;
+  padding-left: 3px;
+  padding-right: 8px !important;
+}
+
+.counter-number {
+  font-size: 8px;
+  font-weight: bold;
+}
+
+.container-counter {
+  position: relative;
+  left: -8px;
+}
+
+.large-text-btn {
+  cursor: pointer;
+  color: #1d57c4c6;
+  font-style: italic;
+  font-size: 12px;
+  text-align: center;
+}
+
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: unset !important;
+}
+
+.clickable-icon {
+  font-size: 24px; /* Tamaño del icono, ajusta según sea necesario */
+  padding: 8px; /* Espaciado alrededor del icono */
+  border-radius: 50%; /* Hace que el padding sea circular */
+  transition: box-shadow 0.3s; /* Suaviza el cambio de la sombra */
+}
+
+.clickable-icon:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Sombra circular al pasar el ratón por encima */
+  cursor: pointer; /* Cambia el cursor para indicar que es clickeable */
+}
+
+.no-clickable-icon {
+  font-size: 24px; /* Tamaño del icono, ajusta aquí sea necesario */
+  padding: 8px; /* Espaciado alrededor del icono */
+  border-radius: 50%; /* Hace que el padding sea circular */
+}
+
+.no-clickable-icon:hover {
+  cursor: not-allowed; /* Cambia el cursor para indicar que no es clickeable */
+}
+.mat-paginator {
+  display: flex;
+  justify-content: start;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  tr:hover {
+    background: none;
+  }
+  tr.mat-row:hover {
+    background-color: lightgray;
+    transition: background-color 0.3s ease;
+  }
+}
+
+th,
+td {
+  overflow: hidden;
+  //white-space: nowrap;
+  padding-left: 3px;
+  padding-right: 8px !important;
+}
+
+.counter-number {
+  font-size: 8px;
+  font-weight: bold;
+}
+
+.container-counter {
+  position: relative;
+  left: -8px;
+}
+
+.large-text-btn {
+  cursor: pointer;
+  color: #1d57c4c6;
+  font-style: italic;
+  font-size: 12px;
+  text-align: center;
+}
+
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: unset !important;
+}
+
+.clickable-icon {
+  font-size: 24px; /* Tamaño del icono, ajusta según sea necesario */
+  padding: 8px; /* Espaciado alrededor del icono */
+  border-radius: 50%; /* Hace que el padding sea circular */
+  transition: box-shadow 0.3s; /* Suaviza el cambio de la sombra */
+}
+
+.clickable-icon:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Sombra circular al pasar el ratón por encima */
+  cursor: pointer; /* Cambia el cursor para indicar que es clickeable */
+}
+
+.no-clickable-icon {
+  font-size: 24px; /* Tamaño del icono, ajusta aquí sea necesario */
+  padding: 8px; /* Espaciado alrededor del icono */
+  border-radius: 50%; /* Hace que el padding sea circular */
+}
+
+.no-clickable-icon:hover {
+  cursor: not-allowed; /* Cambia el cursor para indicar que no es clickeable */
+}

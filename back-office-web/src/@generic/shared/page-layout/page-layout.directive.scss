@@ -1,0 +1,44 @@
+.mc4-page-layout {
+  display: block;
+
+}
+
+.mc4-page-layout-simple {
+
+  .mc4-page-layout-content {
+    padding-top: $padding;
+    padding-bottom: $padding;
+  }
+}
+
+.mc4-page-layout-card {
+  padding-bottom: $padding;
+
+  .mc4-page-layout-header {
+    margin-bottom: -$page-layout-toolbar-height;
+    padding-bottom: $page-layout-toolbar-height;
+  }
+
+}
+
+.mc4-page-layout-header {
+  height: $page-layout-height - $page-layout-toolbar-height;
+  padding-left: $padding;
+  padding-right: $padding;
+  display: flex;
+
+  flex-direction: row;
+  place-content: center flex-start;
+  align-items: center;
+}
+
+.mc4-page-layout-content {
+  display: block;
+  padding-left: $padding;
+  padding-right: $padding;
+
+  @include layout-bp(lt-md) {
+    padding-left: $padding-md;
+    padding-right: $padding-md;
+  }
+}

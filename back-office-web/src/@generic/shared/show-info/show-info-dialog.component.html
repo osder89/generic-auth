@@ -1,0 +1,115 @@
+
+<div class="principal-container">
+  <div class="header">
+    <div fxLayout="row wrap">
+      <div fxFlex="90" fxLayoutAlign="center center">
+        <h3 class="text-primary" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); font-weight: bold;">{{ title }}</h3>
+      </div>
+      <div fxFlex="10" fxLayoutAlign="end center">
+        <button mat-icon-button
+                color="warn"
+                matTooltip="Cancelar"
+                type="button"
+                (click)="dialogRef.close()">
+          <mat-icon  >cancel</mat-icon>
+        </button>
+      </div>
+    </div>
+  <mat-divider></mat-divider>
+  </div>
+
+  <ng-container *ngIf="!tabsList; else tabGroup"> <!-- #withoutTab-->
+    <div class="text-container">
+      <div *ngFor="let row of infoRows" class="label-container">
+        <ng-container *ngIf="row.divider; else content">
+          <mat-divider></mat-divider>
+        </ng-container>
+        <ng-template #content>
+          <ng-container *ngIf="row.multiple; else singleRow">
+            <strong>{{ row.label }}:</strong>
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let group of row.multiple">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>{{ group.name }}</mat-panel-title>
+                </mat-expansion-panel-header>
+                <ul>
+                  <ng-container *ngIf="group.subtitle">
+                    <strong>{{ group.subtitle }}:</strong>
+                  </ng-container>
+                  <li *ngFor="let value of group.value">{{ value }}</li>
+                </ul>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </ng-container>
+          <ng-template #singleRow>
+
+            <div *ngIf="row.title === true; else normalRow">
+              <strong>{{ row.label }}</strong> {{ row.value }}
+            </div>
+            <ng-template #normalRow>
+              <div *ngIf="row.format == null">
+                <strong>{{ row.label }}:</strong> {{ row.value }}
+              </div>
+            </ng-template>
+
+
+            <div *ngIf="row.format == 'email'">
+              <strong>{{ row.label }}:</strong> <a [href]="'mailto:' + row.value" target="_blank">{{ row.value }}</a>
+            </div>
+
+            <div *ngIf="row.format == 'phoneNumber'">
+              <strong>{{ row.label }}:</strong> <a [href]="'https://wa.me/' + row.value" target="_blank">{{ row.value }}</a>
+            </div>
+          </ng-template>
+
+        </ng-template>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #tabGroup>
+    <mat-horizontal-stepper>
+      <mat-step *ngFor="let tab of tabsList; let i = index" [label]="tab.title">
+        <div class="body">
+          <div *ngFor="let row of tab.rows" class="label-container">
+            <ng-container *ngIf="row.divider; else contentT">
+              <mat-divider></mat-divider>
+            </ng-container>
+
+            <ng-template #contentT>
+              <ng-container *ngIf="row.multiple; else singleRowT">
+                <strong>{{ row.label }}:</strong>
+                <mat-accordion>
+                  <mat-expansion-panel *ngFor="let group of row.multiple">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>{{ group.name }}</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ul>
+                      <ng-container *ngIf="group.subtitle">
+                        <strong>{{ group.subtitle }}:</strong>
+                      </ng-container>
+                      <li *ngFor="let value of group.value">{{ value }}</li>
+                    </ul>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </ng-container>
+              <ng-template #singleRowT>
+                <div *ngIf="row.format == null">
+                  <strong>{{ row.label }}:</strong> {{ row.value }}
+                </div>
+
+                <div *ngIf="row.format == 'email'">
+                  <strong>{{ row.label }}:</strong> <a [href]="'mailto:' + row.value" target="_blank">{{ row.value }}</a>
+                </div>
+
+                <div *ngIf="row.format == 'phoneNumber'">
+                  <strong>{{ row.label }}:</strong> <a [href]="'https://wa.me/' + row.value" target="_blank">{{ row.value }}</a>
+                </div>
+              </ng-template>
+            </ng-template>
+          </div>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </ng-template>
+</div>

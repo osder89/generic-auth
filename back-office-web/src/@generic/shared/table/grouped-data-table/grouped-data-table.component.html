@@ -1,0 +1,76 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100">
+    <mat-table [dataSource]="dataSource">
+      <ng-container *ngIf="rowCheckConfig" matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef class="check-cell"></mat-header-cell>
+        <mat-cell *matCellDef="let row" class="check-cell">
+          <mat-checkbox [color]="rowCheckConfig.color"
+                        [disabled]="rowCheckConfig.rowCheckDisableVerifyFn(row)"
+                        [checked]="rowCheckConfig.rowCheckedVerifyFn(row)"
+                        (click)="rowOptionClick(row, rowCheckConfig.checkActionCode)"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+        <ng-container *ngFor="let column of columns">
+          <ng-container *ngIf="column.isModelProperty" [matColumnDef]="column.property">
+            <mat-header-cell *matHeaderCellDef>{{ column.name }}</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row[column.property] }}</mat-cell>
+          </ng-container>
+        </ng-container>
+<!--      <ng-container *ngFor="let column of columns">-->
+<!--        <ng-container *ngIf="column.isModelProperty" [matColumnDef]="column.property">-->
+<!--          <th *matHeaderCellDef mat-header-cell> {{ column.name }}</th>-->
+<!--          <td *matCellDef="let row" mat-cell>{{ row[column.property] }}</td>-->
+<!--        </ng-container>-->
+<!--      </ng-container>-->
+
+        <ng-container *ngIf="rowActions" matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef class="actions-cell"></mat-header-cell>
+          <mat-cell *matCellDef="let row" class="actions-cell">
+            <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenuGroup">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #actionsMenuGroup="matMenu" yPosition="below" xPosition="before">
+              <button *ngFor="let action of rowActions"
+                      mat-menu-item
+                      (click)="rowOptionClick(row, action.actionCode)">
+                <mat-icon color="primary" *ngIf="action.icon">{{action.icon}}</mat-icon>{{action.action}}
+              </button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+<!--      <ng-container *ngIf="rowActions" matColumnDef="actions">-->
+<!--        <th *matHeaderCellDef class="actions-cell" mat-header-cell></th>-->
+<!--        <td *matCellDef="let row" class="actions-cell" mat-cell>-->
+<!--          <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">-->
+<!--            <mat-icon>more_horiz</mat-icon>-->
+<!--          </button>-->
+<!--          <mat-menu #actionsMenu="matMenu" yPosition="below" xPosition="before">-->
+
+<!--            <button *ngFor="let action of rowActions"-->
+<!--                    mat-menu-item-->
+<!--                    (click)="rowOptionClick(row, action.actionCode)">-->
+<!--              <mat-icon color="primary" *ngIf="action.icon">{{action.icon}}</mat-icon>{{action.action}}-->
+<!--            </button>-->
+<!--          </mat-menu>-->
+<!--        </td>-->
+<!--      </ng-container>-->
+
+        <mat-header-row mat-header-row *matHeaderRowDef="visibleColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: visibleColumns;"></mat-row>
+<!--      <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>-->
+<!--      <tr *matRowDef="let row; columns: visibleColumns;" class="clickable route-animations-elements" mat-row></tr>-->
+
+      <ng-container matColumnDef="groupHeader">
+<!--        <td *matCellDef="let group" mat-cell >-->
+<!--          <strong>{{group.name}}</strong>-->
+<!--        </td>-->
+            <mat-cell *matCellDef="let group">
+              <strong>{{group.name}}</strong>
+            </mat-cell>
+      </ng-container>
+
+      <mat-row *matRowDef="let row; columns: ['groupHeader']; when: isGroupFn"> </mat-row>
+    </mat-table>
+  </div>
+</div>

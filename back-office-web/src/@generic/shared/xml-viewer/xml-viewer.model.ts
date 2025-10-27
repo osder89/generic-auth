@@ -1,0 +1,2 @@
+
+export type BackBtnFn = () => void;

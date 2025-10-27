@@ -1,0 +1,209 @@
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+  <mc4-card-header>
+    <mc4-card-header-heading>
+      <div fxLayout="row wrap">
+        <div fxFlex="90">
+          <h3 class="text-primary" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); font-weight: bold;">{{data.title}}</h3>
+        </div>
+        <div fxFlex="10" fxLayoutAlign="end center">
+          <button mat-icon-button
+                  color="warn"
+                  matTooltip="Cancelar"
+                  type="button"
+                  (click)="dialogRef.close()">
+            <mat-icon style="color: #ff0000; background-color: #fff; border-radius: 50%;">cancel</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mc4-card-header-heading>
+    <mc4-card-header-subheading *ngIf="data.subtitle">{{data.subtitle}}</mc4-card-header-subheading>
+  </mc4-card-header>
+  <mat-divider></mat-divider>
+  <mc4-card-content class="mt10" fxLayout="column">
+    <div class="result" fxLayout="column">
+      <div fxLayout="column">
+        <ng-container *ngFor="let field of fieldList">
+          <mat-form-field *ngIf="field.type === 'TEXT_INPUT'"
+                          class="mc4-flex-form-field">
+            <mat-label>{{field.label}}</mat-label>
+            <input matInput
+                   type="text"
+                   [maxlength]="field.maxlength"
+                   [formControlName]="field.name">
+            <mat-error *ngFor="let validator of field.validators">
+              <mat-error
+                *ngIf="form.controls[field.name].hasError(validator.type) && form.controls[field.name].touched"
+                class="font-11">{{validator.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="field.type === 'TEXT_PASSWORD'"
+                          class="mc4-flex-form-field">
+            <mat-label>{{field.label}}</mat-label>
+            <input matInput
+                   [type]="field.typeInp"
+                   [maxlength]="field.maxlength"
+                   [formControlName]="field.name">
+            <button (click)="togglePassword(field)" mat-icon-button matSuffix type="button">
+              <mat-icon *ngIf="field.typeInp === 'password'">visibility</mat-icon>
+              <mat-icon *ngIf="field.typeInp === 'text'">visibility_off</mat-icon>
+            </button>
+            <mat-error *ngFor="let validator of field.validators">
+              <mat-error
+                *ngIf="form.controls[field.name].hasError(validator.type) && form.controls[field.name].touched"
+                class="font-11">{{validator.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field   *ngIf="field.type === 'NUMBER_INPUT' && !field.hidden"
+                          class="mc4-flex-form-field">
+            <mat-label>{{field.label}}</mat-label>
+            <input matInput
+                   type="number"
+                   [formControlName]="field.name">
+            <mat-error *ngFor="let validator of field.validators">
+              <mat-error
+                *ngIf="form.controls[field.name].hasError(validator.type) && form.controls[field.name].touched"
+                class="font-11">{{validator.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+          <mc4-select-multiple-search class="select-multiple-search"
+                                      *ngIf="field.type === 'SELECT-MULTIPLE'"
+                                      [data]="field"></mc4-select-multiple-search>
+          <mat-form-field *ngIf="field.type === 'SELECT'"
+                          class="mc4-flex-form-field">
+            <mat-label>{{field.label}}</mat-label>
+            <mat-select [formControlName]="field.name" [multiple]="field.multiple" (opened)="field.selectOptions.selectSearch ? selectOpened(field.id) : null">
+              <mat-form-field *ngIf="field.selectOptions.selectSearch">
+                <input matInput
+                       type="text"
+                       [id]="field.id"
+                       placeholder="Buscar..."
+                       (keyup)="field.selectOptions.selectSearch ? field.selectOptions.selectSearch($event.target.value, field) : null">
+                <mat-icon matPrefix>search</mat-icon>
+              </mat-form-field>
+              <mat-error *ngFor="let option of field.selectOptions!.dataList">
+                <mat-option *ngIf="!option[field.selectOptions.propMostrar]"
+                            [value]="option[field.selectOptions.propValue]">
+                  {{option[field.selectOptions.propShow]}}
+                </mat-option>
+              </mat-error>
+            </mat-select>
+            <mat-error *ngFor="let validator of field.validators">
+              <mat-error
+                *ngIf="form.controls[field.name].hasError(validator.type) && form.controls[field.name].touched"
+                class="font-11">{{validator.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+          <div *ngIf="field.type === 'SLIDER'"
+               class="mc4-flex-form-field slider-input">
+            <mat-slide-toggle [formControlName]="field.name"
+                              [color]="'primary'"
+                              [checked]="form.controls[field.name].value">
+              {{field.label}}
+            </mat-slide-toggle>
+          </div>
+          <mat-form-field *ngIf="field.type === 'TEXT_AREA'"
+                          class="mc4-flex-form-field">
+            <mat-label>{{field.label}}</mat-label>
+            <textarea matInput
+                      type="text"
+                      [maxlength]="field.maxlength"
+                      [formControlName]="field.name"></textarea>
+            <mat-error *ngFor="let validator of field.validators">
+              <mat-error
+                *ngIf="form.controls[field.name].hasError(validator.type) && form.controls[field.name].touched"
+                class="font-11">{{validator.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="field.type === 'DATE'"
+                          class="mc4-flex-form-field">
+            <mat-label>{{field.label}}</mat-label>
+            <input matInput [matDatepicker]="fechaInicio" [formControlName]="field.name"
+                   placeholder="Fecha : DD/MM/AAAA *">
+            <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+            <mat-datepicker #fechaInicio disabled="false"></mat-datepicker>
+            <mat-error *ngFor="let validator of field.validators">
+              <mat-error
+                *ngIf="form.controls[field.name].hasError(validator.type) && form.controls[field.name].touched"
+                class="font-11">{{validator.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="field.type === 'TIME'"
+                          class="mc4-flex-form-field">
+            <mat-label>{{field.label}}</mat-label>
+            <input matInput type="time" [formControlName]="field.name" placeholder="Hora: HH/mm *">
+            <mat-error *ngFor="let validator of field.validators">
+              <mat-error
+                *ngIf="form.controls[field.name].hasError(validator.type) && form.controls[field.name].touched"
+                class="font-11">{{validator.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+          <ng-container *ngIf="field.type === 'RADIO'"
+                          class="mc4-flex-form-field">
+            <br>
+            <mat-radio-group [formControlName]="field.name" [value]="field.default">
+                <mat-radio-button *ngFor="let option of field.selectOptions!.dataList"
+                            [value]="option[field.selectOptions.propValue]">
+                  {{option[field.selectOptions.propShow]}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <mat-error *ngFor="let validator of field.validators">
+              <mat-error
+                *ngIf="form.controls[field.name].hasError(validator.type) && form.controls[field.name].touched"
+                class="font-11">{{validator.message}}</mat-error>
+            </mat-error>
+            <br>
+          </ng-container>
+          <mat-form-field *ngIf="field.type === 'DATE_TIME'"
+                          class="mc4-flex-form-field">
+            <mat-label>{{field.label}}</mat-label>
+            <input matInput type="datetime-local" [formControlName]="field.name"
+                   placeholder="Fecha y Hora: DD/MM/AAAA HH:mm*">
+            <mat-error *ngFor="let validator of field.validators">
+              <mat-error
+                *ngIf="form.controls[field.name].hasError(validator.type) && form.controls[field.name].touched"
+                class="font-11">{{validator.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+          <div *ngIf="field.type === 'FILE_INPUT' && !field.hidden"
+               class="mc4-flex-form-field">
+            <mat-label>{{fieldFileLabel(field)}}</mat-label>
+            <div fxLayout="row wrap"
+                 class="file-label dropzone"
+                 mc4DragArea
+                 (files)="filesDropped($event, field)"
+                 (click)="file.click()">
+              <div fxFlex="100" fxLayoutAlign="center center"
+                   *ngIf="!fileConfig[field.name]?.length">
+                <div class="text-center">Cargar/Arrastrar archivo</div>
+              </div>
+              <div fxFlex="100" fxLayoutAlign="center center"
+                   class="img-container-field"
+                   *ngIf="fileConfig[field.name]?.length">
+                <img *ngIf="isImage(fileConfig[field.name][0])"
+                     [src]="fileConfig[field.name][0].url"
+                     width="100"
+                     alt="X"/>
+                <div *ngIf="!isImage(fileConfig[field.name][0])"
+                     class="text-center">
+                  {{fileConfig[field.name][0].file.name}}
+                </div>
+              </div>
+              <!-- un metodo similar a loadfiles, el cual debe ejecutar el dropfiles por defecto -->
+              <input #file type="file" [accept]="field.accept" hidden (change)="this.loadFiles($event, field)">
+            </div>
+            <mat-error *ngFor="let validator of field.validators">
+              <mat-error *ngIf="form.controls[field.name].hasError(validator.type) && form.controls[field.name].touched"
+                         style="margin-top: -10px"
+                         class="font-11">{{validator.message}}</mat-error>
+            </mat-error>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </mc4-card-content>
+  <mc4-card-actions fxLayoutAlign="center center">
+    <button mat-flat-button
+            color="primary"
+            type="submit" [disabled]="form.invalid">{{data.btnOk}}</button>
+  </mc4-card-actions>
+</form>

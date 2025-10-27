@@ -1,0 +1,27 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxLayoutAlign="start center">
+    <button *ngIf="backBtnFn"
+            mat-icon-button
+            [color]="colorIconClose"
+            [matTooltip]="tooltipClose"
+            type="button"
+            (click)="backBtnFn()">
+      <mat-icon>{{iconClose}}</mat-icon>
+    </button>
+    <button mat-icon-button
+            color="accent"
+            matTooltip="Copiar"
+            (click)="copyToClipboard()">
+      <mat-icon>file_copy</mat-icon>
+    </button>
+    <button mat-icon-button
+            color="accent"
+            matTooltip="Descargar Archivo"
+            (click)="downloadFileMessage()">
+      <mat-icon>download</mat-icon>
+    </button>
+  </div>
+  <div fxFlex="100" class="xml-container">
+    <code [innerHTML]="xmlStrCode" mc4Highlight></code>
+  </div>
+</div>
