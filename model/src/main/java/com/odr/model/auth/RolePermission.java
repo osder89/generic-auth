@@ -1,7 +1,10 @@
 package com.odr.model.auth;
 
+import com.odr.model.commons.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
 
 @Entity
 @Builder
@@ -11,7 +14,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "role_permission")
-public class RolePermission {
+public class RolePermission extends AuditableEntity implements Serializable {
 
     @Id
     @Column(name = "id")

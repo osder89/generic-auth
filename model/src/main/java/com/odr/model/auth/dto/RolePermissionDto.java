@@ -11,13 +11,17 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RolePermission {
+public class RolePermissionDto {
     private Long idRole;
+    private String roleName;
     private Long idPermission;
+    private String permissionName;
 
-    public RolePermission( Role role, Permission permission) {
+    public RolePermissionDto( Role role, Permission permission ) {
         this.idRole = role.getId();
+        this.roleName = role.getName();
         this.idPermission = permission.getId();
+        this.permissionName = permission.getName();
     }
 
 }
